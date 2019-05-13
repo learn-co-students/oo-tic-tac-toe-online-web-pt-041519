@@ -73,9 +73,9 @@ class TicTacToe
     if valid_move?(index)
       move(index, current_player)
       display_board
-    else 
-      puts "Please enter a position of 1-9:"
-      user_input = gets.chomp
+    # else 
+    #   puts "Please enter a position of 1-9:"
+    #   user_input = gets.chomp
     end 
 
   end
@@ -120,7 +120,7 @@ class TicTacToe
       turn
     end
 
-    #binding.pry
+    # binding.pry
 
     # If the game was won, congratulate the winner
     if won?
@@ -130,8 +130,6 @@ class TicTacToe
       # binding.pry 
       puts "Cat\'s Game!"
     end
-
- 
   end
 
 end

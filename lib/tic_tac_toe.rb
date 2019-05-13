@@ -47,7 +47,13 @@ class TicTacToe
 
   # Return true if desired position is available
   def valid_move?(index)
-    index >= 0 && index < 9 && !position_taken?(index)
+    if index >= 0 && index < 9 
+      if !position_taken?(index)
+        return true
+      else
+        return false
+      end
+    end
   end
 
   # Return number of filled @board elements
@@ -69,13 +75,17 @@ class TicTacToe
     #Translate input into index
     index = input_to_index(user_input)
 
+    # Define a variable for the current player
+    token = current_player
+
     # If index is valid, make move and show board, else ask for more input
-    if valid_move?(index)
-      move(index, current_player)
+    if valid_move?(index) == true
+      move(index, token)
       display_board
     else 
-       puts "Please enter a position of 1-9:"
-       user_input = gets.chomp
+      # turn
+      puts "Please enter a position of 1-9:"
+      user_input = gets.chomp
     end 
 
   end

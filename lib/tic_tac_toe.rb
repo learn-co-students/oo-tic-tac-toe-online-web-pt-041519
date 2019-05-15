@@ -48,13 +48,6 @@ class TicTacToe
   # Return true if desired index position is within array && isn't already taken
   def valid_move?(index)
     index.between?(0,8) && !position_taken?(index)
-    # if index >= 0 && index < 9 
-    #   if !position_taken?(index)
-    #     return true
-    #   else
-    #     return false
-    #   end
-    # end
   end
 
   # Return number of filled @board elements
@@ -71,13 +64,10 @@ class TicTacToe
   def turn
     # Get user input
     puts "Please enter a position of 1-9:"
-    user_input = gets.strip
+    user_input = gets.chomp
 
     #Translate input into index
     index = input_to_index(user_input)
-
-    # Define a variable for the current player
-    # token = current_player
 
     # If index is valid, make move and show board 
     if valid_move?(index)
@@ -95,8 +85,10 @@ class TicTacToe
     x_indexes = @board.map.with_index { |x, index| index if x == "X" }.compact
     o_indexes = @board.map.with_index { |o, index| index if o == "O" }.compact
 
-    # If X or O indexes match WIN_COMBINATIONS, display board and return combination 
+    # Return first combination if X or O indexes match WIN_COMBINATIONS
     WIN_COMBINATIONS.each { |combo| return combo if combo & o_indexes == combo || combo & x_indexes == combo }
+    
+    # Otherwise return false
     return false
   end
 
@@ -110,9 +102,9 @@ class TicTacToe
     full? && !won?
   end
 
-  # Return true if board has been won or if board is full
+  # Return true if board has been won or is a draw
   def over?
-    if won? || full?
+    if won? || draw?
       return true
     else 
       return false
@@ -130,20 +122,15 @@ class TicTacToe
 
   # Run full game loop
   def play 
-    puts "Welcome to the best game ever: Tic Tac Toe!"
     # Take turns until the game is over
-
-    # binding.pry
-
-    # until over?
-    while !(won? || draw?)
+    until over?
       turn
     end
 
     # If the game was won, congratulate the winner
     if won?
       puts "Congratulations #{winner}!"
-    # else if the game was a draw, tell the players it ended in a draw
+    # else if the game was a draw, inform players "Cat's Game"
     elsif draw?
       puts "Cat's Game!"
     end  

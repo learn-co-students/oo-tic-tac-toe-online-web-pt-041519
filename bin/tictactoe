@@ -2,10 +2,5 @@
 require 'pry'
 require_relative '../lib/tic_tac_toe.rb'
 
-<<<<<<< HEAD
 game_1 = TicTacToe.new
 game_1.play
-=======
-game1 = TicTacToe.new
-game1.play
->>>>>>> lab

@@ -104,20 +104,12 @@ class TicTacToe
 
   # Return true if board has been won or is a draw
   def over?
-    if won? || draw?
-      return true
-    else 
-      return false
-    end
+    won? || draw? ? (return true) : (return false)
   end
 
   # Return winning token (X or O) if it exists, otherwise return nil
   def winner
-    if won?
-      return @board[won?[0]]
-    else 
-      return nil 
-    end
+    won? ? (return @board[won?[0]]) : (return nil)
   end
 
   # Run full game loop

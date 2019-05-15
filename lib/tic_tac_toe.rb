@@ -30,30 +30,31 @@ class TicTacToe
     puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
   end
 
-  # Return user input index, accounting for string variable type and array index starting with 0
+  # Translate 1-9 user input into array index and return. Account for string variable type and array length 0-8
   def input_to_index(user_input)
     user_input.to_i - 1
   end
 
-  # Record player's move based on @board index and player token (X or O); default token is X
+  # Record player's move based on @board index position and player token (X or O); default to X token
   def move(index, token = "X")
     @board[index] = token
   end
 
-  # Return true if desired position on the board is taken (is not " ")
+  # Return true if board position is taken (is not " ")
   def position_taken?(index)
     @board[index] != " "
   end
 
-  # Return true if desired position is available
+  # Return true if desired index position is within array && isn't already taken
   def valid_move?(index)
-    if index >= 0 && index < 9 
-      if !position_taken?(index)
-        return true
-      else
-        return false
-      end
-    end
+    index.between?(0,8) && !position_taken?(index)
+    # if index >= 0 && index < 9 
+    #   if !position_taken?(index)
+    #     return true
+    #   else
+    #     return false
+    #   end
+    # end
   end
 
   # Return number of filled @board elements
@@ -70,24 +71,22 @@ class TicTacToe
   def turn
     # Get user input
     puts "Please enter a position of 1-9:"
-    user_input = gets.chomp
+    user_input = gets.strip
 
     #Translate input into index
     index = input_to_index(user_input)
 
     # Define a variable for the current player
-    token = current_player
+    # token = current_player
 
-    # If index is valid, make move and show board, else ask for more input
-    if valid_move?(index) == true
-      move(index, token)
+    # If index is valid, make move and show board 
+    if valid_move?(index)
+      move(index, current_player)
       display_board
+    # Else ask for more input
     else 
-      # turn
-      puts "Please enter a position of 1-9:"
-      user_input = gets.chomp
-    end 
-
+      turn
+    end
   end
 
   # Return winning array if @board indexes match WIN_COMBINATIONS, otherwise return false/nil
@@ -95,7 +94,7 @@ class TicTacToe
     # Map indexes of X and O 
     x_indexes = @board.map.with_index { |x, index| index if x == "X" }.compact
     o_indexes = @board.map.with_index { |o, index| index if o == "O" }.compact
-    
+
     # If X or O indexes match WIN_COMBINATIONS, display board and return combination 
     WIN_COMBINATIONS.each { |combo| return combo if combo & o_indexes == combo || combo & x_indexes == combo }
     return false
@@ -113,33 +112,41 @@ class TicTacToe
 
   # Return true if board has been won or if board is full
   def over?
-    return true if won? || full? 
-    return false
+    if won? || full?
+      return true
+    else 
+      return false
+    end
   end
 
   # Return winning token (X or O) if it exists, otherwise return nil
   def winner
-    return @board[won?[0]] if won?
-    return nil 
+    if won?
+      return @board[won?[0]]
+    else 
+      return nil 
+    end
   end
 
   # Run full game loop
   def play 
+    puts "Welcome to the best game ever: Tic Tac Toe!"
     # Take turns until the game is over
-    until over?
-      turn
-    end
 
     # binding.pry
+
+    # until over?
+    while !(won? || draw?)
+      turn
+    end
 
     # If the game was won, congratulate the winner
     if won?
       puts "Congratulations #{winner}!"
     # else if the game was a draw, tell the players it ended in a draw
-    else
-      # binding.pry 
-      puts "Cat\'s Game!"
-    end
+    elsif draw?
+      puts "Cat's Game!"
+    end  
   end
 
 end

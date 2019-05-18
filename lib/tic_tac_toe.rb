@@ -27,8 +27,8 @@ class TicTacToe
     index = input.to_i - 1 
   end
   
-  def move(index, player_token = "X") 
-    @board[index] = player_token 
+  def move(index, player = "X") 
+    @board[index] = player
   end 
   
   def position_taken?(index)
@@ -40,13 +40,7 @@ class TicTacToe
   end 
  
   def turn_count
-   turn_count = 0 
-     @board.each do |position|
-       if position == "X" || position == "O"
-         turn_count += 1 
-       end 
-      end 
-    turn_count 
+    @board.count { |player_move| player_move == "X" || player_move == "O" }
   end 
   
   def current_player
@@ -54,25 +48,22 @@ class TicTacToe
   end 
  
   def turn 
-   puts "enter 1-9"
-   input = gets
-   index = input_to_index(input)
+   puts "Please enter 1-9:"  #ask for input 
+   input = gets.strip  #get input 
+   index = input_to_index(input)   #translate input into index 
    
-   if valid_move?(index)
-     token = current_player
-     move(index, token)
-     display_board
+   if valid_move?(index)   #if index is valid 
+     move(index, current_player)   #make the move for index 
+     display_board  #show board 
    else 
-     turn 
+     turn  #else ask for input again 
    end 
   end 
  
   def won?
-    WIN_COMBINATIONS.any do |combo|
-      if position_taken?(combo[0]) && @board[combo[0]] == @board[combo[1]] && @board[combo[1]] == @board[combo[2]]
-        return combo
-      end 
-    end 
+    WIN_COMBINATIONS.detect do |combo|
+      @board[combo[0]] == @board[combo[1]] && @board[combo[0]] ==  @board[combo[2]] && position_taken?(combo[0])
+    end
   end
  
   def full? 
@@ -90,21 +81,22 @@ class TicTacToe
   end 
   
   def winner 
-    if won? 
-    end 
+    if combo = won?
+        @board[combo[0]]
+      else
+        return nil
+    end
   end 
   
   def play 
-    while !over? 
-      turn 
-    end 
-    if won? 
-      puts "Congratulations #{winner}"
-    elseif draw? 
+     until over? do
+      turn
+     end
+    if won?
+      puts "Congratulations #{winner}!"
+    elsif draw?
       puts "Cat's Game!"
-    end 
+    end
   end 
   
-  
- 
 end 

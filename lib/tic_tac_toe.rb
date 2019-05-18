@@ -1,6 +1,8 @@
 require "pry"
 
+
 class TicTacToe
+
 
   WIN_COMBINATIONS = [
     [0,1,2], # Top row
@@ -69,7 +71,7 @@ class TicTacToe
     end
   end
 
-  
+
   def won?
     WIN_COMBINATIONS.map do |array|
       if @board[array[0]] == "X" && @board[array[1]] == "X" && @board[array[2]] == "X"
@@ -113,8 +115,8 @@ class TicTacToe
       puts "Congratulations #{winner}!"
     elsif draw?
       puts "Cat's Game!"
+    end
   end
-end
 
 
 end

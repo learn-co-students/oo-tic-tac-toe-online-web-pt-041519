@@ -13,12 +13,12 @@ class TicTacToe
     [6,4,2]  # Diag bottom-left to top-right
   ]
 
-  # initializes the board with an empty array
+  
   def initialize(board = nil)
     @board = board || Array.new(9, " ")
   end
 
-  # prints the current board representation based on the @board instance variable
+  
   def display_board
     puts " #{@board[0]} | #{@board[1]} | #{@board[2]} "
     puts "-----------"
@@ -27,43 +27,36 @@ class TicTacToe
     puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
   end
 
-  # we pass in user input as arg and returns us the corresponding index of the @board array (need a -1 in there)
+  
   def input_to_index(input)
     input.to_i - 1
   end
 
-  # has 2 args, index of @board, and token of default "X"
+  
   def move(index, token = "X")
     @board[index] = token
   end
 
-  # check to see if position is vacant or if it contains "X" or "O"
+  
   def position_taken?(index)
     @board[index] == "X" || @board[index] == "O"
   end
 
-  # return true if valid and false or nil if not
-  # position has to be present on the game board [o] - [8]
+  
   def valid_move?(index)
     index.between?(0,8) && !position_taken?(index)
   end
-  # returns the number of turns that've been played based on @board
-  # binding.pry @board to see wassssaaaap
+  
+
   def turn_count
     @board.count {|token| token == "X" || token == "O"}
   end
 
-  # uses the #turn_count method to see whose turn (X or O)
-  # turn 3 is X, turn 4 is O, turn 5 is X, turn 6 is O 
   def current_player
-    #binding.pry
     turn_count % 2 == 0 ? "X" : "O"
   end
 
-  # encapsulate the logic on a single compete turn
-  # ask user to pick 1-9(puts), receive user input (gets.chomp.to_i) 
-  # if move valid?, make the move and display board (use the methods above)
-  # else not valid? ask for new move until valid move is received 
+  
   def turn
     puts "Your turn, pick a position between 1-9"
     input = gets.chomp
@@ -76,7 +69,7 @@ class TicTacToe
     end
   end
 
-  # use WIN_COMBINATIONS. return the winning combo indexes as an array if theres a win
+  
   def won?
     WIN_COMBINATIONS.map do |array|
       if @board[array[0]] == "X" && @board[array[1]] == "X" && @board[array[2]] == "X"
@@ -88,9 +81,11 @@ class TicTacToe
     false
   end
 
+
   def full?
     turn_count == 9
   end
+
 
   def draw?
     if full?
@@ -98,10 +93,12 @@ class TicTacToe
     end
   end
 
+
   def over?
     draw? || won?
   end
-  
+
+
   def winner
     return @board[won?[0]] if won?
     nil
@@ -110,12 +107,12 @@ class TicTacToe
 
   def play
     until over?
-    turn
+      turn
     end
     if won?
-    puts "Congratulations #{winner}!"
+      puts "Congratulations #{winner}!"
     elsif draw?
-    puts "Cat's Game!"
+      puts "Cat's Game!"
   end
 end
 

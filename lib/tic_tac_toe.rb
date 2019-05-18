@@ -33,12 +33,43 @@ class TicTacToe
   def turn
     move = gets.chomp
     index = input_to_index(move)
-    unless valid_move?(input_to_index(index))
+    unless valid_move?(index)
       puts "Try again!"
       index = input_to_index(gets.chomp)
     end
     @board[index] = current_player
     display_board
+  end
+  
+  def won?
+    WIN_COMBINATIONS.map do |array|
+      if @board[array[0]] == "X" && @board[array[1]] == "X" && @board[array[2]] == "X"
+        return array
+      elsif @board[array[0]] == "O" && @board[array[1]] == "O" && @board[array[2]] == "O"
+        return array
+      end
+    end
+    false
+  end
+
+  def full?
+    turn_count == 9
+  end
+  
+  def draw?
+    if full?
+      won? == false
+    end
+  end
+  
+  def over?
+    draw? || won?
+  end
+  
+  def winner
+    if won?
+     turn_count % 2 == 0 ? "O" : "X"
+    end
   end
   
   def current_player
@@ -56,4 +87,17 @@ class TicTacToe
     puts "-----------"
     puts " #{@board[6]} | #{@board[7]} | #{@board[8]} "
   end
+
+  def play
+    until over?
+      turn
+    end
+    if won?
+      puts "Congratulations #{winner}!"
+    end
+    if draw?
+      puts "Cat's Game!"
+    end
+  end
+
 end

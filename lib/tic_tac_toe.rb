@@ -45,14 +45,7 @@ class TicTacToe
 
   def turn_count
     count = 0
-    @board.count {|x| x == "X" || "O"}
-    #   if index == "X"
-    #     count += 1
-    #   elsif index == "O"
-    #     count += 1
-    #   end
-    # end
-    # count
+    @board.count{|x| x == "X" || x == "O"}
   end
 
   def current_player

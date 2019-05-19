@@ -67,7 +67,68 @@ class TicTacToe
   end
 
   def won?
+    x_win = WIN_COMBINATIONS.find(ifnone = nil) do |combo|
+        @board[combo[0]] == "X" &&
+        @board[combo[1]] == "X" &&
+        @board[combo[2]] == "X"
+      end
+    o_win = WIN_COMBINATIONS.find(ifnone = nil) do |combo|
+        @board[combo[0]] == "O" &&
+        @board[combo[1]] == "O" &&
+        @board[combo[2]] == "O"
+      end
+    x_win || o_win
+  end
 
+  def full?
+    value = true
+    if @board.include?(" ")
+      value = false
+    end
+    value
+  end
+
+  def draw?
+    value = false
+    if full? && !won?
+      value = true
+    end
+    value
+  end
+
+  def over?
+    draw? || won?
+  end
+
+  def winner
+    champion = nil
+    x_win = WIN_COMBINATIONS.find(ifnone = nil) do |combo|
+        @board[combo[0]] == "X" &&
+        @board[combo[1]] == "X" &&
+        @board[combo[2]] == "X"
+      end
+    o_win = WIN_COMBINATIONS.find(ifnone = nil) do |combo|
+        @board[combo[0]] == "O" &&
+        @board[combo[1]] == "O" &&
+        @board[combo[2]] == "O"
+      end
+      if x_win
+        champion = "X"
+      elsif o_win
+        champion = "O"
+      end
+    champion
+  end
+
+  def play
+    until over?
+      turn
+    end
+    if won?
+      puts "Congratulations #{winner}!"
+    else
+      puts "Cat's Game!"
+    end
   end
 
 

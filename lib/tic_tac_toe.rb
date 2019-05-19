@@ -62,6 +62,7 @@ class TicTacToe
       display_board
     else
       puts "invalid move try again"
+      input = gets.to_i - 1
     end
   end
 

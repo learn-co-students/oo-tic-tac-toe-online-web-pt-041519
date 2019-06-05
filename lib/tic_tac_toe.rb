@@ -93,7 +93,7 @@ class TicTacToe
   end
 
   def over?
-    won? || full? || draw?
+    won? || draw?
   end
 
   def winner
@@ -108,14 +108,15 @@ class TicTacToe
   end
 
   def play
-    until over?
+    until over? do
       turn
+      
     end
-
-    if won?
-      puts "Conventions #{winner}!"
-    elsif draw?
+    if draw?
       puts "It's draw!"
+    elsif won?
+      puts "Conventions #{winner}!"
+
     end
   end
 

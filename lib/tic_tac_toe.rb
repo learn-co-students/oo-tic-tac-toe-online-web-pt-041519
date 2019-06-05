@@ -59,6 +59,7 @@ class TicTacToe
     end
 
     def turn
+      puts "Enter between 1 - 9"
      input = gets.strip
      index = input_to_index(input)
       if valid_move?(index)
@@ -110,7 +111,7 @@ class TicTacToe
   def play
     until over? do
       turn
-      
+
     end
     if draw?
       puts "It's draw!"

@@ -1,3 +1,4 @@
+require "pry"
 class TicTacToe 
 
   def initialize(board = nil) 
@@ -40,15 +41,108 @@ def position_taken?(user_input)
 end
 
 def valid_move?(location)
-  if @board[location] == "X" || @board[location] == "O"
-    return true
+  #binding.pry
+  if @board[location] == "X" || @board[location] == "O" || !location.between?(0, 8)
+    return false
   else
+    return true
+  end
+end
+
+def turn_count
+  counter = 0
+
+  @board.each do |turn|
+    if turn == "X" || turn == "O"
+      counter += 1
+      puts "#{counter}"
+    end
+  end
+
+  counter
+end
+
+def current_player
+  turn_count.even? == true ? "X" : "O"
+end
+
+def turn
+  puts "Please enter 1-9:"
+  user_input = gets.chomp
+  index = input_to_index(user_input)
+  if valid_move?(index) == true && current_player == "X"
+    move(index, value = "X")
+    puts display_board
+  elsif valid_move?(index) == true && current_player == "O"
+    move(index, value = "O")
+    puts display_board
+  elsif valid_move?(index) == false
+    puts "Please enter 1-9:"
+    input = gets.chomp
+  else
+    puts "Please enter 1-9:"
+    input = gets.chomp
+  end
+end
+
+  
+def won?
+  WIN_COMBINATIONS.detect do |combo|
+    position_taken?(combo[0]) && @board[combo[0]] == @board[combo[1]] && @board[combo[1]] == @board[combo[2]]
+  end
+end
+
+def full?
+  @board.all? do |index|
+    index == "X" || index == "O"
+  end
+end
+
+def draw?
+  if won?
+    return false
+  elsif full? == false
+    return false
+  else
+    return true
+  end
+end
+
+def over?
+  if won? || draw? == true
+    return true
+  else 
     return false
   end
 end
 
+def winner
+  winning_combo = won?
+    if winning_combo
+      return @board[winning_combo[0]]
+    end
+  end
+
+  def play 
+    while over? == false
+      turn
+    end
+    
+    if draw?
+      puts "Cat's Game!"
+    elsif winner == "X"
+      puts "Congratulations X!"
+    elsif winner == "O"
+      puts "Congratulations O!"
+    end
+  end
 
 end
+  
+
+
+
+
 
 
       
